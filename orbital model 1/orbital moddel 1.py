@@ -1,5 +1,5 @@
 #agenda
-#add the rest of the plannets
+#calculate the correct periapsis adjustments
 #in seperate file make a better code for intercepts
 # make the moon
 # make moons, i dont know how many i expect. not a priority
@@ -23,7 +23,7 @@ X_adjust = SCREEN_WITH*0.5
 Y_adjust = SCREEN_HEIGHT*0.5
 t = 0
 scale = 1e9
-rotation = 0
+rotation = -2
 scale_variable = 1e9/scale
 
 #functions
@@ -85,10 +85,19 @@ size_Sol_min = 7
 
 #angle periapsis of planets and Earth
 def data_periapsis():
-    global Mars_periapsis_adjustment, Venus_periapsis_adjustment, Mercury_periapsis_adjustment
+    global Uranus_periapsis_adjustment, Mars_periapsis_adjustment, Venus_periapsis_adjustment, Mercury_periapsis_adjustment ,Jupiter_periapsis_adjustment, Saturn_periapsis_adjustment, Neptune_periapsis_adjustment
     Mars_periapsis_adjustment = 2.453985730083436 + rotation
     Venus_periapsis_adjustment = -0.4917868504634558 + rotation
     Mercury_periapsis_adjustment = 0.5197628231051556 + rotation
+    #Jupiter_periapsis_adjustment = -1.5506772717783741 + rotation
+    Jupiter_periapsis_adjustment = 3.14 + rotation
+    #Saturn_periapsis_adjustment = -0.1960914748187934 + rotation
+    Saturn_periapsis_adjustment = 4.8 + rotation
+    Uranus_periapsis_adjustment = 3.7 + rotation
+    Neptune_periapsis_adjustment = 0.5 + rotation
+    #these are temporary periapsis adjustments due to some difficulty with calculating the actual
+    #values from the outer plannets.
+
 data_periapsis()
 #Mars data
 def data_Mars():
@@ -223,9 +232,9 @@ while run == True:
     events = pygame.event.get()
     SCREEN.fill((0, 0, 0))
     time.sleep(0.01)
-    if t<152:
-        t += 0.5
-    
+    #if t<152:
+    #    t += 0.5
+    t = 152
 
     #inner plannets
     if scale <= 4.5e9:
@@ -285,17 +294,17 @@ while run == True:
 
 
     for i in range(0, int(orbital_period_Jupiter), int(trace_time_Jupiter)):
-        draw_object_in_orbit(i, eccentricity_Jupiter, Semimajor_axis_Jupiter, mean_motion_Jupiter, 0, color_trace, 1, False, rotation)
-    draw_object_in_orbit(t, eccentricity_Jupiter, Semimajor_axis_Jupiter, mean_motion_Jupiter, delay_Jupiter, color_Jupiter, size_Jupiter_adjusted, True, rotation)
+        draw_object_in_orbit(i, eccentricity_Jupiter, Semimajor_axis_Jupiter, mean_motion_Jupiter, delay_Jupiter, color_trace, 1, False, Jupiter_periapsis_adjustment)
+    draw_object_in_orbit(t+delay_Jupiter, eccentricity_Jupiter, Semimajor_axis_Jupiter, mean_motion_Jupiter, delay_Jupiter, color_Jupiter, size_Jupiter_adjusted, True, Jupiter_periapsis_adjustment)
     for i in range(0, int(orbital_period_Saturn), int(trace_time_Saturn)):
-        draw_object_in_orbit(i, eccentricity_Saturn, Semimajor_axis_Saturn, mean_motion_Saturn, 0, color_trace, 1, False, rotation)
-    draw_object_in_orbit(t, eccentricity_Saturn, Semimajor_axis_Saturn, mean_motion_Saturn, delay_Saturn, color_Saturn, size_Saturn_adjusted, True, rotation)
+        draw_object_in_orbit(i, eccentricity_Saturn, Semimajor_axis_Saturn, mean_motion_Saturn, 0, color_trace, 1, False, Saturn_periapsis_adjustment)
+    draw_object_in_orbit(t+delay_Saturn, eccentricity_Saturn, Semimajor_axis_Saturn, mean_motion_Saturn, delay_Saturn, color_Saturn, size_Saturn_adjusted, True, Saturn_periapsis_adjustment)
     for i in range(0, int(orbital_period_Uranus), int(trace_time_Uranus)):
-        draw_object_in_orbit(i, eccentricity_Uranus, Semimajor_axis_Uranus, mean_motion_Uranus, 0, color_trace, 1, False, rotation)
-    draw_object_in_orbit(t, eccentricity_Uranus, Semimajor_axis_Uranus, mean_motion_Uranus, delay_Uranus, color_Uranus, size_Uranus_adjusted, True, rotation)
+        draw_object_in_orbit(i, eccentricity_Uranus, Semimajor_axis_Uranus, mean_motion_Uranus, 0, color_trace, 1, False, Uranus_periapsis_adjustment)
+    draw_object_in_orbit(t+delay_Uranus, eccentricity_Uranus, Semimajor_axis_Uranus, mean_motion_Uranus, delay_Uranus, color_Uranus, size_Uranus_adjusted, True, Uranus_periapsis_adjustment)
     for i in range(0, int(orbital_period_Neptune), int(trace_time_Neptune)):
-        draw_object_in_orbit(i, eccentricity_Neptune, Semimajor_axis_Neptune, mean_motion_Neptune, 0, color_trace, 1, False, rotation)
-    draw_object_in_orbit(t, eccentricity_Neptune, Semimajor_axis_Neptune, mean_motion_Neptune, delay_Neptune, color_Neptune, size_Neptune_adjusted, True, rotation)
+        draw_object_in_orbit(i, eccentricity_Neptune, Semimajor_axis_Neptune, mean_motion_Neptune, 0, color_trace, 1, False, Neptune_periapsis_adjustment)
+    draw_object_in_orbit(t+delay_Neptune, eccentricity_Neptune, Semimajor_axis_Neptune, mean_motion_Neptune, delay_Neptune, color_Neptune, size_Neptune_adjusted, True, Neptune_periapsis_adjustment)
 
 
 
