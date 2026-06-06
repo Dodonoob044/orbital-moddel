@@ -22,10 +22,13 @@ SCREEN_HEIGHT = 650
 SCREEN = pygame.display.set_mode((SCREEN_WITH, SCREEN_HEIGHT))
 X_adjust = SCREEN_WITH*0.5
 Y_adjust = SCREEN_HEIGHT*0.5
+
 t = 0
-scale = 1e9
+scale = 10e8
 rotation = -2
-scale_variable = 1e9/scale
+X_move = 0
+Y_move = 0
+scale_variable_min = 10e8/scale
 
 #functions
 def solve_E_for_M(M, e):
@@ -53,19 +56,22 @@ def draw_object_in_orbit(t, e, a, n, delay, color, size, important, p_adjust):
     X_object = (math.cos(2*math.pi-object_data[0]+p_adjust) * object_data[1])/ scale
     Y_object = (math.sin(2*math.pi-object_data[0]+p_adjust) * object_data[1])/ scale
     
+    #adding potential movement
+    X = X_adjust + X_move_adjusted
+    Y = Y_adjust + Y_move_adjusted
     #if important:
     #    pygame.draw.circle(SCREEN, (0, 0, 0), ((X_object + X_adjust), (Y_object + Y_adjust)), size+3)
-    pygame.draw.circle(SCREEN, (color), ((X_object + X_adjust), (Y_object + Y_adjust)), size)
+    pygame.draw.circle(SCREEN, (color), ((X_object + X), (Y_object + Y)), size)
 #draws an object in orbit around the Sol
 def calculate_tracers(a, T):
-    tracers = (2*math.pi*a)/(10216870687/scale_variable)
+    tracers = (2*math.pi*a)/(10216870687/scale_variable_min)
     trace_time = T/tracers
     if trace_time<1:
         trace_time = 1
     return(trace_time)
 #calculates the delay between every tracer to prevent overcrowding/overspacing
 def object_size(max, min):
-    size = max*scale_variable
+    size = max*scale_variable_min
     if size<min:
         size = min
     return(size)
@@ -90,7 +96,9 @@ color_trace = (135, 144, 149)
 
 run =  True
 while run == True:
-    scale_variable = 1 * 1e9/scale
+    X_move_adjusted = X_move/scale
+    Y_move_adjusted = Y_move/scale
+    scale_variable_min = 1 * 1e9/scale
     events = pygame.event.get()
     SCREEN.fill((0, 0, 0))
     time.sleep(0.01)
@@ -136,7 +144,7 @@ while run == True:
     else:
         size_inner = data.Apoapsis_Mars/scale*2
         line_with_inner = size_inner*0.386
-        inner_plannets = pygame.Rect((X_adjust-0.5*size_inner), (Y_adjust-0.5*size_inner), size_inner, size_inner)
+        inner_plannets = pygame.Rect((X_adjust-0.5*size_inner+X_move_adjusted), (Y_adjust-0.5*size_inner+Y_move_adjusted), size_inner, size_inner)
         pygame.draw.ellipse(SCREEN, (color_inner_blur), inner_plannets, int(line_with_inner))
     
     #outer plannets
@@ -173,11 +181,11 @@ while run == True:
     
     
     #Sol
-    if scale > 0:
-        size_Sol_adjusted = object_size(size_Sol, size_Sol_min)
-        if size_Sol_adjusted<5:
-            size_Sol_adjusted = 5
-        pygame.draw.circle(SCREEN, (255, 214, 74), (X_adjust, Y_adjust), size_Sol_adjusted)
+    
+    size_Sol_adjusted = object_size(size_Sol, size_Sol_min)
+    if size_Sol_adjusted<5:
+        size_Sol_adjusted = 5
+    pygame.draw.circle(SCREEN, (255, 214, 74), (X_adjust+X_move_adjusted, Y_adjust+Y_move_adjusted), size_Sol_adjusted)
 
 
 
@@ -185,18 +193,30 @@ while run == True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        
+        #zooming function
         if scale/(1e8) >= 4:
             if event.type == pygame.MOUSEWHEEL:
                 if scale/(1e9) <=4.5:
                     scale -= 100000000*event.y
                 if scale/(1e9) > 4.5:
-                    scale -= 500000000*event.y
-                
+                    scale -= 500000000*event.y            
         if scale/(1e8) <= 4:
             scale = 4e8
-        if scale/(1e8) > 450:
-            scale = 450e8
+        if scale/(1e8) > 350:
+            scale = 350e8
         print(scale/1e8)
+
+    #moving function
+    key = pygame.key.get_pressed()
+    if key[pygame.K_w] == True:
+        Y_move += 1 * scale
+    elif key[pygame.K_s] == True:
+        Y_move -= 1 * scale
+    elif key[pygame.K_d] == True:
+        X_move -= 1 * scale
+    elif key[pygame.K_a] == True:
+        X_move += 1 * scale
             
     pygame.display.update()
 
