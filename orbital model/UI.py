@@ -4,9 +4,9 @@ import pygame, data, datetime
 def speed(SCREEN, speed, freeze):
     font = pygame.font.SysFont(None, 15)
     if not freeze:
-        text_speed = font.render(f"speed: {speed}", True, (255, 255, 255))
+        text_speed = font.render(f"speed:  {speed}", True, (255, 255, 255))
     else:
-        text_speed = font.render(f"paused", True, (255, 255, 255))
+        text_speed = font.render(f"paused {speed}", True, (255, 255, 255))
 
     SCREEN.blit(text_speed, (0, 10))
 
