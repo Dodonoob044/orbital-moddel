@@ -24,12 +24,16 @@ SCREEN_WITH = data.SCREEN_with
 SCREEN_HEIGHT = data.SCREEN_height
 SCREEN = pygame.display.set_mode((SCREEN_WITH, SCREEN_HEIGHT))
 
-
+speed = 0.5
 t = 0
 scale = 10e8
 X_move = 0
 Y_move = 0
 scale_variable_min = 10e8/scale
+tracking = True
+gear = 0
+freeze = False
+
 
 
 
@@ -46,11 +50,15 @@ while run == True:
     X_move_adjusted = X_move/scale
     Y_move_adjusted = Y_move/scale
     scale_variable_min = 1 * 1e9/scale
+
     events = pygame.event.get()
     SCREEN.fill((0, 0, 0))
-    time.sleep(0.01)
-    #if t<152:
-    t += 0.5
+
+    if freeze:
+        speed = 0
+    else:
+        speed = func.speed(gear)
+    t += speed
     #t = 152
 
     #inner plannets
@@ -99,10 +107,6 @@ while run == True:
     func.plannet(SCREEN, scale, t, X_move_adjusted, Y_move_adjusted, data.size_Neptune, data.size_Neptune_min, data.Semimajor_axis_Neptune, 
     data.orbital_period_Neptune, data.eccentricity_Neptune, data.mean_motion_Neptune, data.Neptune_periapsis_adjustment, data.color_Neptune, data.delay_Neptune)
 
-
-
-    
-    
     #Sol
     
     size_Sol_adjusted = func.object_size(data.size_Sol, data.size_Sol_min, scale)
@@ -111,9 +115,20 @@ while run == True:
     pygame.draw.circle(SCREEN, (255, 214, 74), (data.X_adjust+X_move_adjusted, data.Y_adjust+Y_move_adjusted), size_Sol_adjusted)
 
 
+    if X_move == 0 and Y_move == 0:
+        Tracking = True
+    else:
+        Tracking = False
+    
+    if not Tracking:
+        zoom = pygame.Rect((data.X_adjust, data.Y_adjust, 4, 4))
+        pygame.draw.rect(SCREEN, (255, 1, 1), zoom)
+
+
+
 
     #quit function
-    for event in pygame.event.get():
+    for event in events:
         if event.type == pygame.QUIT:
             run = False
         
@@ -128,7 +143,10 @@ while run == True:
             scale = 4e8
         if scale/(1e8) > 350:
             scale = 350e8
-        print(scale/1e8)
+        #print(scale/1e8)
+
+
+        
 
     #moving function
     key = pygame.key.get_pressed()
@@ -148,7 +166,20 @@ while run == True:
         X_move -= 1 * scale
     elif key[pygame.K_a] == True:
         X_move += 1 * scale
-            
-    pygame.display.update()
 
+    for event in events:
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_e:
+                gear = func.gear_up(gear)
+            if event.key == pygame.K_q:
+                gear = func.gear_down(gear)
+            if event.key == pygame.K_SPACE:
+                if freeze:
+                    freeze = False
+                else:
+                    freeze = True
+
+    pygame.display.update()
+    clock = pygame.time.Clock()
+    clock.tick(data.framerate)
 pygame.quit()

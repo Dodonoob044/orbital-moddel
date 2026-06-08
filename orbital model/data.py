@@ -1,6 +1,7 @@
 rotation = -2
 SCREEN_with = 1000
 SCREEN_height = 650
+framerate = 30
 X_adjust = SCREEN_with*0.5
 Y_adjust = SCREEN_height*0.5
 
@@ -133,3 +134,18 @@ color_Neptune = (101,203,246)
 #color data
 color_inner_blur = (31, 31, 31)
 color_trace = (135, 144, 149)
+
+#gear data
+max_gear = 9
+min_gear = -9
+
+gear_1 = 0.1
+gear_2 = 0.2
+gear_3 = 0.5
+gear_4 = 1
+gear_5 = 2
+gear_6 = 5
+gear_7 = 10
+gear_8 = 20
+gear_9 = 50
+gears = [gear_1, gear_2, gear_3, gear_4, gear_5, gear_6, gear_7, gear_8, gear_9]
