@@ -51,6 +51,28 @@ def draw_object_in_orbit(SCREEN, t, e, a, n, delay, color, size, important, p_ad
     #    pygame.draw.circle(SCREEN, (0, 0, 0), ((X_object + X_adjust), (Y_object + Y_adjust)), size+3)
     pygame.draw.circle(SCREEN, (color), ((X_object + X), (Y_object + Y)), size)
 
+def gear_up(gear):
+    gear += 1
+    if gear > data.max_gear:
+        gear = data.max_gear
+    return gear
+
+def gear_down(gear):
+    gear -= 1
+    if gear < data.min_gear:
+        gear = data.min_gear
+    return gear
+
+def speed(gear):
+    if gear == 0:
+        speed = 0
+    elif gear > 0:
+        speed = data.gears[gear-1]
+    elif gear < 0:
+        speed = (data.gears[gear-1]) * -1
+    return(speed)
+    
+
 
 
 def plannet(SCREEN, scale, t, X_move_adjusted, Y_move_adjusted, size_max, size_min, a, T, e, n, P_adjust, color, delay):

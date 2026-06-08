@@ -4,6 +4,7 @@ SCREEN_height = 650
 framerate = 30
 X_adjust = SCREEN_with*0.5
 Y_adjust = SCREEN_height*0.5
+move_speed = 3
 
 
 #constants
@@ -134,6 +135,12 @@ color_Neptune = (101,203,246)
 #color data
 color_inner_blur = (31, 31, 31)
 color_trace = (135, 144, 149)
+
+color_help_outer = (108, 102,  102)
+color_help_inner = (168, 161, 161)
+
+
+
 
 #gear data
 max_gear = 9

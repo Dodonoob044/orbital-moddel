@@ -9,13 +9,10 @@
 
 
 #imports
-import pygame
-import time
-import math
+import pygame, math, time
 
 #related files
-import data
-import func
+import data, func, UI
 
 pygame.init()
 
@@ -24,7 +21,6 @@ SCREEN_WITH = data.SCREEN_with
 SCREEN_HEIGHT = data.SCREEN_height
 SCREEN = pygame.display.set_mode((SCREEN_WITH, SCREEN_HEIGHT))
 
-speed = 0.5
 t = 0
 scale = 10e8
 X_move = 0
@@ -33,6 +29,7 @@ scale_variable_min = 10e8/scale
 tracking = True
 gear = 0
 freeze = False
+help_status = False
 
 
 
@@ -114,7 +111,7 @@ while run == True:
         size_Sol_adjusted = 5
     pygame.draw.circle(SCREEN, (255, 214, 74), (data.X_adjust+X_move_adjusted, data.Y_adjust+Y_move_adjusted), size_Sol_adjusted)
 
-
+    #Tracking
     if X_move == 0 and Y_move == 0:
         Tracking = True
     else:
@@ -152,20 +149,20 @@ while run == True:
     key = pygame.key.get_pressed()
     if key[pygame.K_w] == True:
         if key[pygame.K_d] == True:
-            X_move -= 1 * scale
+            X_move -= data.move_speed * scale
         if key[pygame.K_a] == True:
-            X_move += 1 * scale
-        Y_move += 1 * scale
+            X_move += data.move_speed * scale
+        Y_move += data.move_speed * scale
     elif key[pygame.K_s] == True:
         if key[pygame.K_d] == True:
-            X_move -= 1 * scale
+            X_move -= data.move_speed * scale
         if key[pygame.K_a] == True:
-            X_move += 1 * scale
-        Y_move -= 1 * scale
+            X_move += data.move_speed * scale
+        Y_move -= data.move_speed * scale
     elif key[pygame.K_d] == True:
-        X_move -= 1 * scale
+        X_move -= data.move_speed * scale
     elif key[pygame.K_a] == True:
-        X_move += 1 * scale
+        X_move += data.move_speed * scale
 
     for event in events:
         if event.type == pygame.KEYDOWN:
@@ -178,6 +175,23 @@ while run == True:
                     freeze = False
                 else:
                     freeze = True
+            if event.key == pygame.K_h:
+                if help_status:
+                    help_status = False
+                else:
+                    help_status = True
+
+
+
+    #UI display
+    UI.speed(SCREEN, speed, freeze)
+    UI.help(SCREEN, help_status)
+    UI.date(SCREEN, t)
+
+
+
+
+
 
     pygame.display.update()
     clock = pygame.time.Clock()
