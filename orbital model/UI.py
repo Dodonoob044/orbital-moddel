@@ -43,6 +43,15 @@ def date(SCREEN, t):
     display_date = font.render(f"{current_date}", True, (255, 255, 255))
     SCREEN.blit(display_date, (0, 0))
 
+def crosshair(SCREEN):
+    rect_1 = pygame.Rect((data.X_adjust-2, data.Y_adjust-2, 1, 4))
+    rect_2 = pygame.Rect((data.X_adjust+1, data.Y_adjust-2, 1, 4))
+    rect_3 = pygame.Rect((data.X_adjust-1, data.Y_adjust-2, 2, 1))
+    rect_4 = pygame.Rect((data.X_adjust-1, data.Y_adjust+1, 2, 1))
+    rects = [rect_1, rect_2, rect_3, rect_4]
+    for rect in rects:
+        pygame.draw.rect(SCREEN, (255, 0,0), rect)
+    
 
 
         

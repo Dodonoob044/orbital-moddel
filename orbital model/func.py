@@ -73,9 +73,6 @@ def speed(gear):
         speed = (data.gears[gear-1]) * -1
     return(speed)
     
-
-
-
 def plannet(SCREEN, scale, t, X_move_adjusted, Y_move_adjusted, size_max, size_min, a, T, e, n, P_adjust, color, delay):
     scale_variable_min = 10e8/scale
 
@@ -102,3 +99,59 @@ def plannet(SCREEN, scale, t, X_move_adjusted, Y_move_adjusted, size_max, size_m
     Y = data.Y_adjust + Y_move_adjusted
 
     pygame.draw.circle(SCREEN, (color), ((X_object + X), (Y_object + Y)), size)
+
+def track(nr ,t, scale):
+    if nr == 1:
+        delay = data.delay_Mercury
+        p_adjust = data.Mercury_periapsis_adjustment
+        e = data.eccentricity_Mercury
+        a = data.Semimajor_axis_Mercury
+        n = data.mean_motion_Mercury
+    elif nr == 2:
+        delay = data.delay_Venus
+        p_adjust = data.Venus_periapsis_adjustment
+        e = data.eccentricity_Venus
+        a = data.Semimajor_axis_Venus
+        n = data.mean_motion_Venus
+    elif nr == 3:
+        delay = data.delay_Earth
+        p_adjust = data.Earth_periapsis_adjustment
+        e = data.eccentricity_Earth
+        a = data.Semimajor_axis_Earth
+        n = data.mean_motion_Earth      
+    elif nr == 4:
+        delay = data.delay_Mars
+        p_adjust = data.Mars_periapsis_adjustment
+        e = data.eccentricity_Mars
+        a = data.Semimajor_axis_Mars
+        n = data.mean_motion_Mars
+    elif nr == 5:
+        delay = data.delay_Jupiter
+        p_adjust = data.Jupiter_periapsis_adjustment
+        e = data.eccentricity_Jupiter
+        a = data.Semimajor_axis_Jupiter
+        n = data.mean_motion_Jupiter
+    elif nr == 6:
+        delay = data.delay_Saturn
+        p_adjust = data.Saturn_periapsis_adjustment
+        e = data.eccentricity_Saturn
+        a = data.Semimajor_axis_Saturn
+        n = data.mean_motion_Saturn
+    elif nr == 7:
+        delay = data.delay_Uranus
+        p_adjust = data.Uranus_periapsis_adjustment
+        e = data.eccentricity_Uranus
+        a = data.Semimajor_axis_Uranus
+        n = data.mean_motion_Uranus
+    elif nr == 8:
+        delay = data.delay_Neptune
+        p_adjust = data.Neptune_periapsis_adjustment
+        e = data.eccentricity_Neptune
+        a = data.Semimajor_axis_Neptune
+        n = data.mean_motion_Neptune
+
+    object_data = solve_angle_and_range((t+delay), e, a, n)
+    X_object = (math.cos(2*math.pi-object_data[0]+p_adjust) * object_data[1])/ scale
+    Y_object = (math.sin(2*math.pi-object_data[0]+p_adjust) * object_data[1])/ scale
+    
+    return(X_object, Y_object)

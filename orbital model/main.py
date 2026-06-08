@@ -26,11 +26,12 @@ scale = 10e8
 X_move = 0
 Y_move = 0
 scale_variable_min = 10e8/scale
-tracking = True
+tracking = False
 gear = 0
 freeze = False
 help_status = False
-
+track = False
+track_sight = False
 
 
 
@@ -44,9 +45,35 @@ help_status = False
 
 run =  True
 while run == True:
-    X_move_adjusted = X_move/scale
-    Y_move_adjusted = Y_move/scale
-    scale_variable_min = 1 * 1e9/scale
+    #tracking certain objects
+    keys = pygame.key.get_pressed()
+    values = [1, 2, 3, 4, 5, 6, 7, 8]
+    for value in values:
+        if keys[ord(str(value))]:
+            tracking_move = func.track(value, t, scale)
+            X_move = -tracking_move[0]
+            Y_move = -tracking_move[1]
+            track = value
+            tracking = True
+            track_sight = False
+    
+    
+
+    if tracking:
+        tracking_move = func.track(track, t, scale)
+        X_move = -tracking_move[0]
+        Y_move = -tracking_move[1]
+    
+    if not tracking:
+        X_move_adjusted = X_move/scale
+        Y_move_adjusted = Y_move/scale
+        scale_variable_min = 1 * 1e9/scale
+    else:
+        X_move_adjusted = X_move
+        X_move = X_move * scale
+        Y_move_adjusted = Y_move
+        Y_move = Y_move * scale
+
 
     events = pygame.event.get()
     SCREEN.fill((0, 0, 0))
@@ -111,15 +138,7 @@ while run == True:
         size_Sol_adjusted = 5
     pygame.draw.circle(SCREEN, (255, 214, 74), (data.X_adjust+X_move_adjusted, data.Y_adjust+Y_move_adjusted), size_Sol_adjusted)
 
-    #Tracking
-    if X_move == 0 and Y_move == 0:
-        Tracking = True
-    else:
-        Tracking = False
     
-    if not Tracking:
-        zoom = pygame.Rect((data.X_adjust, data.Y_adjust, 4, 4))
-        pygame.draw.rect(SCREEN, (255, 1, 1), zoom)
 
 
 
@@ -153,17 +172,32 @@ while run == True:
         if key[pygame.K_a] == True:
             X_move += data.move_speed * scale
         Y_move += data.move_speed * scale
+        tracking = False
+        track_sight = True
     elif key[pygame.K_s] == True:
         if key[pygame.K_d] == True:
             X_move -= data.move_speed * scale
         if key[pygame.K_a] == True:
             X_move += data.move_speed * scale
         Y_move -= data.move_speed * scale
+        tracking = False
+        track_sight = True
     elif key[pygame.K_d] == True:
         X_move -= data.move_speed * scale
+        tracking = False
+        track_sight = True
     elif key[pygame.K_a] == True:
         X_move += data.move_speed * scale
+        tracking = False
+        track_sight = True
+    elif key[pygame.K_0] == True:
+        X_move = 0
+        Y_move = 0
+        track_sight = False
 
+    
+
+    #functions that need keydown
     for event in events:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_e:
@@ -187,10 +221,8 @@ while run == True:
     UI.speed(SCREEN, speed, freeze)
     UI.help(SCREEN, help_status)
     UI.date(SCREEN, t)
-
-
-
-
+    if track_sight:
+        UI.crosshair(SCREEN)
 
 
     pygame.display.update()
