@@ -69,6 +69,7 @@ def speed(gear):
     elif gear > 0:
         speed = data.gears[gear-1]
     elif gear < 0:
+        gear = gear * -1
         speed = (data.gears[gear-1]) * -1
     return(speed)
     
