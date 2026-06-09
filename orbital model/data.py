@@ -1,4 +1,4 @@
-rotation = -2
+rotation = 0
 SCREEN_with = 1000
 SCREEN_height = 650
 framerate = 30
@@ -39,6 +39,7 @@ size_Mars = 5
 size_Mars_min = 3
 delay_Mars = -81.5625
 color_Mars = (148, 10, 10)
+Mars_plannet_nr = 4
 
 #Earth data
 Periapsis_Earth = 147098450000
@@ -52,6 +53,8 @@ size_Earth = 7
 size_Earth_min = 4
 delay_Earth = 0
 color_Earth = (16,154,235)
+Earth_plannet_nr = 3
+
 
 #Venus data
 Periapsis_Venus = 107477000000
@@ -65,6 +68,8 @@ size_Venus = 4
 size_Venus_min = 3
 delay_Venus = -131.44791666662786
 color_Venus = (233,205,93)
+Venus_plannet_nr = 2
+
 
 #Mercury data
 Periapsis_Mercury = 46001200000
@@ -78,6 +83,8 @@ size_Mercury = 2
 size_Mercury_min = 2
 delay_Mercury = -46.7913530014414
 color_Mercury = (212,210,202)
+Mercury_plannet_nr = 1
+
 
 #Jupiter data
 Periapsis_Jupiter = 740743000000
@@ -91,6 +98,8 @@ size_Jupiter = 20
 size_Jupiter_min = 5
 delay_Jupiter = 1079.4494572499534
 color_Jupiter = (233,206,117)
+Jupiter_plannet_nr = 5
+
 
 #Saturn data
 Periapsis_Saturn = 1349823615000
@@ -104,6 +113,8 @@ size_Saturn = 20
 size_Saturn_min = 5
 delay_Saturn = 7836.299492054968
 color_Saturn = (233,206,117)
+Saturn_plannet_nr = 6
+
 
 #Uranus data
 Periapsis_Uranus = 18.33*AU
@@ -117,6 +128,8 @@ size_Uranus = 20
 size_Uranus_min = 5
 delay_Uranus = 21605.72181166534
 color_Uranus = (145,176,222)
+Uranus_plannet_nr = 7
+
 
 #Neptune data
 Periapsis_Neptune = 29.81*AU
@@ -130,6 +143,8 @@ size_Neptune = 20
 size_Neptune_min = 5
 delay_Neptune = 52933.00848930236
 color_Neptune = (101,203,246)
+Neptune_plannet_nr = 8
+
 
 
 #color data

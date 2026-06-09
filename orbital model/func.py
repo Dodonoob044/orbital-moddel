@@ -39,6 +39,23 @@ def solve_angle_and_range(t, e, a, n):
     r = a*(1-e*math.cos(E))
     return(θ, r)
 
+def data_from_angle(v, e, n, a):
+    x = (math.tan(v/2))/(math.sqrt((1+e)/(1-e)))
+    E = 2*math.atan(x)
+    M = E - e*math.sin(E)
+    t = M/n
+    if t < 0:
+        t += 2*math.pi/n
+    r = a*(1-e*math.cos(E))
+    return(r,t)
+
+def elipse_calculator(Rperiapsis, Rapoapsis):
+    a = (Rperiapsis + Rapoapsis)/2
+    T = 2* math.pi * math.sqrt((a**3)/data.μ)
+    T = T/24/3600
+    e = (Rapoapsis-Rperiapsis)/(Rperiapsis+Rapoapsis)
+    return(T, a, e )
+
 def draw_object_in_orbit(SCREEN, t, e, a, n, delay, color, size, important, p_adjust, scale, X_move_adjusted, Y_move_adjusted):
     object_data = solve_angle_and_range((t+delay), e, a, n)
     X_object = (math.cos(2*math.pi-object_data[0]+p_adjust) * object_data[1])/ scale

@@ -82,8 +82,8 @@ while run == True:
         speed = 0
     else:
         speed = func.speed(gear)
-    t += speed
-    #t = 152
+    #t += speed
+    t = 550
 
     #inner plannets
     if scale <= 4.5e9:
