@@ -2,7 +2,7 @@ import data, func, math
 
 
 
-def transfer_date(current_time, plannet_nr_1, plannet_nr_2,  eccentricity_1, Semimajor_axis_1, mean_motion_1, 
+def transfer_data(current_time, plannet_nr_1, plannet_nr_2,  eccentricity_1, Semimajor_axis_1, mean_motion_1, 
                   P_adjust_1, delay_1, eccentricity_2, Semimajor_axis_2, mean_motion_2, P_adjust_2, delay_2):
     if plannet_nr_1 < plannet_nr_2:
         transfer = 0
@@ -14,7 +14,8 @@ def transfer_date(current_time, plannet_nr_1, plannet_nr_2,  eccentricity_1, Sem
     
     loop = True
     while loop:
-        launch = func.solve_angle_and_range(launch_time, eccentricity_1, Semimajor_axis_1, mean_motion_1)
+        print(launch_time)
+        launch = func.solve_angle_and_range(launch_time+P_adjust_1, eccentricity_1, Semimajor_axis_1, mean_motion_1)
         launch_angle = launch[0]
         launch_range = launch[1]
         arival_angle = launch_angle - P_adjust_1 + P_adjust_2 + math.pi
@@ -41,7 +42,7 @@ def transfer_date(current_time, plannet_nr_1, plannet_nr_2,  eccentricity_1, Sem
         if dif_angle > math.pi:
             dif_angle -= math.pi
 
-        #print(f"arival: {arival_angle},  target: {angle_target},  dif: {dif_angle}")
+        print(f"arival: {arival_angle},  target: {angle_target},  dif: {dif_angle}")
 
         delta_mean_motion = abs(mean_motion_1 - mean_motion_2)
 
@@ -60,15 +61,11 @@ def transfer_date(current_time, plannet_nr_1, plannet_nr_2,  eccentricity_1, Sem
             launch_time += 0.1
         else:
             launch_time += 1
+        
+        if launch_time > 300:
+            break
 
 
 
 
 
-
-launch_data = transfer_date(285, data.Earth_plannet_nr, data.Mars_plannet_nr, data.eccentricity_Earth, data.Semimajor_axis_Earth, data.mean_motion_Earth, data.Earth_periapsis_adjustment
-              , data.delay_Earth, data.eccentricity_Mars, data.Semimajor_axis_Mars, data.mean_motion_Mars, data.Mars_periapsis_adjustment, data.delay_Mars)
-
-
-print(f"date is {launch_data[0]} from now")
-print(f"angle is {launch_data[1]} rads")

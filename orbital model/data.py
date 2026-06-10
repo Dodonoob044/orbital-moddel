@@ -52,7 +52,7 @@ Periapsis_date_Earth = [2026, 1, 3, 17.25]
 size_Earth = 7
 size_Earth_min = 4
 delay_Earth = 0
-color_Earth = (16,154,235)
+color_Earth = (40,108,226)
 Earth_plannet_nr = 3
 
 
@@ -67,7 +67,7 @@ Periapsis_date_Venus = [2026, 5, 15, 4]
 size_Venus = 4
 size_Venus_min = 3
 delay_Venus = -131.44791666662786
-color_Venus = (233,205,93)
+color_Venus = (195,217,255)
 Venus_plannet_nr = 2
 
 
@@ -82,7 +82,7 @@ Periapsis_date_Mercury = [2026, 5, 18, 11.5]
 size_Mercury = 2
 size_Mercury_min = 2
 delay_Mercury = -46.7913530014414
-color_Mercury = (212,210,202)
+color_Mercury = (252,223,144)
 Mercury_plannet_nr = 1
 
 
@@ -97,7 +97,7 @@ Periapsis_date_Jupiter = [2023, 1, 20, 1]
 size_Jupiter = 20
 size_Jupiter_min = 5
 delay_Jupiter = 1079.4494572499534
-color_Jupiter = (233,206,117)
+color_Jupiter = (166,115,11)
 Jupiter_plannet_nr = 5
 
 
@@ -127,7 +127,7 @@ Periapsis_date_Uranus = [1966, 11, 9, 10.666]
 size_Uranus = 20
 size_Uranus_min = 5
 delay_Uranus = 21605.72181166534
-color_Uranus = (145,176,222)
+color_Uranus = (67,225,236)
 Uranus_plannet_nr = 7
 
 
@@ -142,8 +142,17 @@ Periapsis_date_Neptune = [1881, 2, 2, 1]
 size_Neptune = 20
 size_Neptune_min = 5
 delay_Neptune = 52933.00848930236
-color_Neptune = (101,203,246)
+color_Neptune = (62,177,243)
 Neptune_plannet_nr = 8
+
+#lists
+eccentricity = [eccentricity_Mercury, eccentricity_Venus, eccentricity_Earth, eccentricity_Mars, eccentricity_Jupiter, eccentricity_Saturn, eccentricity_Uranus, eccentricity_Neptune]
+Semimajor_axis = [Semimajor_axis_Mercury, Semimajor_axis_Venus, Semimajor_axis_Earth, Semimajor_axis_Mars, Semimajor_axis_Jupiter, Semimajor_axis_Saturn, Semimajor_axis_Uranus, Semimajor_axis_Neptune]
+mean_motion = [mean_motion_Mercury, mean_motion_Venus, mean_motion_Earth, mean_motion_Mars, mean_motion_Jupiter, mean_motion_Saturn, mean_motion_Uranus, mean_motion_Neptune]
+periapsis = [Mercury_periapsis_adjustment, Venus_periapsis_adjustment, Earth_periapsis_adjustment, Mars_periapsis_adjustment, Jupiter_periapsis_adjustment, Saturn_periapsis_adjustment, Uranus_periapsis_adjustment, Neptune_periapsis_adjustment]
+delay = [delay_Mercury, delay_Venus, delay_Earth, delay_Mars, delay_Jupiter, delay_Saturn, delay_Uranus, delay_Neptune]
+plannet_color = [color_Mercury, color_Venus, color_Earth, color_Mars, color_Jupiter, color_Saturn, color_Uranus, color_Neptune]
+plannet_nr = [Mercury_plannet_nr, Venus_plannet_nr, Earth_plannet_nr, Mars_plannet_nr, Jupiter_plannet_nr, Saturn_plannet_nr, Uranus_plannet_nr, Neptune_plannet_nr]
 
 
 

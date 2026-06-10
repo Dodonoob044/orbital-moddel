@@ -11,8 +11,6 @@ def speed(SCREEN, speed, freeze):
         text_speed = font.render(f"paused", True, (255, 255, 255))
         SCREEN.blit(text_speed, (0, 20))
 
-    
-
 def help(SCREEN, status):
     width = 100
     height = 150
@@ -55,6 +53,24 @@ def crosshair(SCREEN):
     for rect in rects:
         pygame.draw.rect(SCREEN, (255, 0,0), rect)
     
+def transfer_top(SCREEN, selected):
+    width = 500
+    height = 50
+    rect_inner = pygame.Rect((data.X_adjust - 0.5*width, 0, width, height))
+    rect_outer = pygame.Rect((data.X_adjust - 0.5*(width+4), 0, width+4, height+2))
+    pygame.draw.rect(SCREEN, data.color_help_outer, rect_outer)
+    pygame.draw.rect(SCREEN, data.color_help_inner, rect_inner)
+    distance_circles = (width)/9
+    for i in range (0, 8, 1):
+        if i == selected:
+            pygame.draw.circle(SCREEN, (255,255,255), (data.X_adjust-0.5*width+(1+i)*distance_circles  , 0.5*height-5), 17)
+
+        pygame.draw.circle(SCREEN, data.plannet_color[i], (data.X_adjust-0.5*width+(1+i)*distance_circles  , 0.5*height-5), 15)
+    
+
+    
+
+
 
 
         

@@ -1,9 +1,9 @@
 #agenda
-#calculate the correct periapsis adjustments
+#calculate better correct periapsis adjustments
 #in seperate file make a better code for intercepts
 # make the moon
 # make moons, i dont know how many i expect. not a priority
-# make the camera move 
+# improve the zoom function, right now its kinda blocky
 
 #bugs
 
@@ -12,7 +12,7 @@
 import pygame, math, time
 
 #related files
-import data, func, UI
+import data, func, UI, transfer
 
 pygame.init()
 
@@ -32,8 +32,10 @@ freeze = False
 help_status = False
 track = False
 track_sight = False
-
-
+transfer_calculations = False
+selected = 0
+selecting = 0
+plannet_choice = False
 
 
 
@@ -56,8 +58,6 @@ while run == True:
             track = value
             tracking = True
             track_sight = False
-    
-    
 
     if tracking:
         tracking_move = func.track(track, t, scale)
@@ -82,8 +82,8 @@ while run == True:
         speed = 0
     else:
         speed = func.speed(gear)
-    #t += speed
-    t = 550
+    t += speed
+    #t = 550
 
     #inner plannets
     if scale <= 4.5e9:
@@ -143,26 +143,6 @@ while run == True:
 
 
 
-    #quit function
-    for event in events:
-        if event.type == pygame.QUIT:
-            run = False
-        
-        #zooming function
-        if scale/(1e8) >= 4:
-            if event.type == pygame.MOUSEWHEEL:
-                if scale/(1e9) <=4.5:
-                    scale -= 100000000*event.y
-                if scale/(1e9) > 4.5:
-                    scale -= 500000000*event.y            
-        if scale/(1e8) <= 4:
-            scale = 4e8
-        if scale/(1e8) > 350:
-            scale = 350e8
-        #print(scale/1e8)
-
-
-        
 
     #moving function
     key = pygame.key.get_pressed()
@@ -195,7 +175,7 @@ while run == True:
         Y_move = 0
         track_sight = False
 
-    
+
 
     #functions that need keydown
     for event in events:
@@ -214,6 +194,68 @@ while run == True:
                     help_status = False
                 else:
                     help_status = True
+            if event.key == pygame.K_t:
+                if transfer_calculations == True:
+                    transfer_calculations = False
+                else:
+                    transfer_calculations = True
+                selected = 0
+            if event.key == pygame.K_RIGHT:
+                selected += 1
+            if event.key == pygame.K_LEFT:
+                selected -= 1
+            if event.key == pygame.K_RSHIFT:
+                print("shift was pressed")
+                if selecting == 2:
+                    p_2 = selected
+                    selecting = 3
+                elif selecting == 1:
+                    p_1 = selected
+                    selecting = 2
+                    selected = 0
+                
+
+        #quit function
+        if event.type == pygame.QUIT:
+            run = False
+        #zooming function
+        if scale/(1e8) >= 4:
+            if event.type == pygame.MOUSEWHEEL:
+                if scale/(1e9) <=4.5:
+                    scale -= 100000000*event.y
+                if scale/(1e9) > 4.5:
+                    scale -= 500000000*event.y            
+        if scale/(1e8) <= 4:
+            scale = 4e8
+        if scale/(1e8) > 350:
+            scale = 350e8
+        #print(scale/1e8)
+        
+
+    #transfer functions
+    if transfer_calculations:
+        plannet_choice = True
+        if selecting == 0:
+            selecting = 1
+        if selecting == 3:
+            plannet_choice = False
+            print(p_1, p_2)
+            #print(t, data.plannet_nr[p_1], data.plannet_nr[p_2], data.eccentricity[p_1], data.Semimajor_axis[p_1], data.mean_motion[p_1], data.periapsis[p_1], 
+            #    data.delay[p_1], data.eccentricity[p_2], data.Semimajor_axis[p_2], data.mean_motion[p_2], data.periapsis[p_2], data.delay[p_2])
+            transfer_data = transfer.transfer_data(t, data.plannet_nr[p_1], data.plannet_nr[p_2], data.eccentricity[p_1], data.Semimajor_axis[p_1], data.mean_motion[p_1], data.periapsis[p_1], 
+                                                   data.delay[p_1], data.eccentricity[p_2], data.Semimajor_axis[p_2], data.mean_motion[p_2], data.periapsis[p_2], data.delay[p_2])
+            print(transfer_data)
+            selecting = 0
+            transfer_calculations = False
+
+    else:
+        plannet_choice = False
+
+        
+
+
+
+
 
 
 
@@ -223,7 +265,8 @@ while run == True:
     UI.date(SCREEN, t)
     if track_sight:
         UI.crosshair(SCREEN)
-
+    if plannet_choice:
+        UI.transfer_top(SCREEN, selected)
 
     pygame.display.update()
     clock = pygame.time.Clock()
